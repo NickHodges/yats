@@ -9,23 +9,24 @@ import { ApiQuery } from '@nestjs/swagger';
 export class ToDosController {
   constructor(private todosService: ToDosService) {}
 
-  // @Get()
-  // async getTodos() {
-  //   const todosEntities = await this.todosService.getTodos();
-  //   const todos = classToPlain(todosEntities);
-  //   return todos;
-  // }
-
   @Get()
-  @ApiQuery({
-    name: 'complete',
-    required: false,
-    type: String
-  })
-  async getTodos(@Query('complete') Completed: string) {
-    const todosEntities = await this.todosService.getTodosWithComplete(Completed);
+  async getAllTodos() {
+    const todosEntities = await this.todosService.getAllTodos();
     const todos = classToPlain(todosEntities);
     return todos;
+  }
+
+  @Get('complete/:isComplete')
+  async getTodos(@Param('isComplete') isComplete: string) {
+    if (isComplete === 'true') {
+      const todosEntities = await this.todosService.getCompletedTodos();
+      const todos = classToPlain(todosEntities);
+      return todos;
+    } else {
+      const todosEntities = await this.todosService.getIncompleteTodos();
+      const todos = classToPlain(todosEntities);
+      return todos;
+    }
   }
 
   @Get(':id')

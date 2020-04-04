@@ -8,21 +8,24 @@ import { ObjectID } from 'typeorm/browser';
 export class ToDosService {
   constructor(@InjectRepository(Todo) private todosRepository: Repository<Todo>) {}
 
-  async getTodos(): Promise<Todo[]> {
+  async getAllTodos(): Promise<Todo[]> {
     return this.todosRepository.find({
       isDeleted: false
     });
   }
 
-  async getTodosWithComplete(isComplete: string): Promise<Todo[]> {
-    if (isComplete === undefined) {
-      return this.getTodos();
-    } else {
-      return this.todosRepository.find({
-        complete: !!isComplete,
-        isDeleted: false
-      });
-    }
+  async getCompletedTodos(): Promise<Todo[]> {
+    return this.todosRepository.find({
+      complete: true,
+      isDeleted: false
+    });
+  }
+
+  async getIncompleteTodos(): Promise<Todo[]> {
+    return this.todosRepository.find({
+      complete: false,
+      isDeleted: false
+    });
   }
 
   async getTodo(id: ObjectID): Promise<Todo | undefined> {
