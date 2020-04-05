@@ -16,8 +16,8 @@ export class ToDosController {
     return todos;
   }
 
-  @Get('complete/:isComplete')
-  async getTodos(@Param('isComplete') isComplete: string) {
+  @Get('complete')
+  async getTodos(@Query('iscomplete') isComplete: string) {
     if (isComplete === 'true') {
       const todosEntities = await this.todosService.getCompletedTodos();
       const todos = classToPlain(todosEntities);
