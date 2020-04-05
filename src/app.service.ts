@@ -3,6 +3,6 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   getHello(): string {
-    return 'Use the /todos route';
+    return 'Use the /todos route to get started';
   }
 }
