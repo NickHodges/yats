@@ -8,7 +8,7 @@ import { Todo } from './models/todo.model';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { DataInterceptor } from './util/data.interceptor';
 import { DataPipe } from './util/data.pipe';
-import { UsersService } from './users/users.service';
+import { UserService } from './users/users.service';
 import { UsersController } from './users/users.controller';
 
 @Module({
@@ -19,23 +19,23 @@ import { UsersController } from './users/users.controller';
       port: 27017,
       database: 'TodoDB',
       entities: [__dirname + '/**/*.model{.ts,.js}'],
-      synchronize: true,
+      synchronize: true
     }),
-    TypeOrmModule.forFeature([Todo]),
+    TypeOrmModule.forFeature([Todo])
   ],
   controllers: [AppController, ToDosController, UsersController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
-      useClass: DataInterceptor,
+      useClass: DataInterceptor
     },
     AppService,
     ToDosService,
     {
       provide: APP_PIPE,
-      useClass: DataPipe,
+      useClass: DataPipe
     },
-    UsersService,
-  ],
+    UserService
+  ]
 })
 export class AppModule {}
