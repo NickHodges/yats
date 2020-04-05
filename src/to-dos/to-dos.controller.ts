@@ -3,7 +3,6 @@ import { ToDosService } from './to-dos.service';
 import { classToPlain } from 'class-transformer';
 import { Todo } from '../models/todo.model';
 import { ObjectID } from 'typeorm';
-import { ApiQuery } from '@nestjs/swagger';
 
 @Controller('todos')
 export class ToDosController {
