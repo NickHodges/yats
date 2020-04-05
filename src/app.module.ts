@@ -8,6 +8,8 @@ import { Todo } from './models/todo.model';
 import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { DataInterceptor } from './util/data.interceptor';
 import { DataPipe } from './util/data.pipe';
+import { UsersService } from './users/users.service';
+import { UsersController } from './users/users.controller';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { DataPipe } from './util/data.pipe';
     }),
     TypeOrmModule.forFeature([Todo]),
   ],
-  controllers: [AppController, ToDosController],
+  controllers: [AppController, ToDosController, UsersController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
@@ -33,6 +35,7 @@ import { DataPipe } from './util/data.pipe';
       provide: APP_PIPE,
       useClass: DataPipe,
     },
+    UsersService,
   ],
 })
 export class AppModule {}
