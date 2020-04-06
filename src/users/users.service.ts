@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import * as argon2 from 'argon2';
 
 @Injectable()
 export class UserService {
@@ -16,11 +15,6 @@ export class UserService {
   }
 
   createUser(user: User): Promise<User> {
-    const tempUser: User = new User();
-    tempUser.email = user.email;
-    argon2.hash(user.password).then(passwordDigest => {
-      tempUser.password = passwordDigest;
-    });
-    return this.userRepository.save(tempUser);
+    return this.userRepository.save(user);
   }
 }
