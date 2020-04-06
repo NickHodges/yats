@@ -7,13 +7,13 @@ export class User {
   @Transform(value => value.toString(), { toPlainOnly: true })
   _id: ObjectID;
 
-  @Column({ length: 255 })
+  @Column({ length: 256 })
   email: string;
 
-  @Column({ length: 127 })
+  @Column({ length: 256 })
   password: string;
 
   @Exclude() @Column() createdAt: Date = new Date();
   @Exclude() @Column() createdBy: string = 'user';
-  @Exclude() @Column() isDeleted: boolean = false;  
+  @Exclude() @Column() isDeleted: boolean = false;
 }
