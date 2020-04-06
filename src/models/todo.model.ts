@@ -4,7 +4,7 @@ import { Exclude, Transform } from 'class-transformer';
 @Entity()
 export class Todo {
   @ObjectIdColumn()
-    @Transform(value => value.toString(), { toPlainOnly: true })
+  @Transform(value => value.toString(), { toPlainOnly: true })
   _id: ObjectID;
 
   @Column({ length: 100 })

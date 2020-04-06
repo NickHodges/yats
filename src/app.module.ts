@@ -10,6 +10,7 @@ import { DataInterceptor } from './util/data.interceptor';
 import { DataPipe } from './util/data.pipe';
 import { UserService } from './users/users.service';
 import { UsersController } from './users/users.controller';
+import { User } from './models/user.model';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { UsersController } from './users/users.controller';
       entities: [__dirname + '/**/*.model{.ts,.js}'],
       synchronize: true
     }),
-    TypeOrmModule.forFeature([Todo])
+    TypeOrmModule.forFeature([Todo]),
+    TypeOrmModule.forFeature([User])
   ],
   controllers: [AppController, ToDosController, UsersController],
   providers: [
