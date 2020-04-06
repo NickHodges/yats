@@ -28,6 +28,7 @@
     "@nestjs/typeorm": "^7.0.0",
     "class-transformer": "^0.2.3",
     "mongodb": "^3.5.5",
+    "password-validator": "^5.0.3",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.5.4",
