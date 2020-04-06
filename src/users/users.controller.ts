@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, Get, HttpException, HttpStatus } from '@nestjs/common';
 import { UserService } from './users.service';
 import { User } from 'src/models/user.model';
 import { classToPlain } from 'class-transformer';
@@ -21,8 +21,7 @@ export class UsersController {
     const theErrors = validatePassword(user.password);
 
     if (theErrors.length > 0) {
-      user.errors = theErrors;
-      return Promise.resolve(user);
+      throw new HttpException(theErrors, HttpStatus.NOT_ACCEPTABLE);
     } else {
       return argon2
         .hash(user.password)
