@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Body, Post, Put, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Param, Body, Post, Put, Delete, Query, ParseBoolPipe } from '@nestjs/common';
 import { ToDosService } from './to-dos.service';
 import { classToPlain } from 'class-transformer';
 import { Todo } from '../models/todo.model';
@@ -16,8 +16,8 @@ export class ToDosController {
   }
 
   @Get('complete')
-  async getTodos(@Query('iscomplete') isComplete: string) {
-    if (isComplete === 'true') {
+  async getTodos(@Query('iscomplete', ParseBoolPipe) isComplete: boolean) {
+    if (isComplete) {
       const todosEntities = await this.todosService.getCompletedTodos();
       const todos = classToPlain(todosEntities);
       return todos;
