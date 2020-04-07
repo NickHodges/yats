@@ -16,8 +16,7 @@ export class UserService {
 
   async checkEmailForDuplicate(email: string) {
     const theUser: User = await this.userRepository.findOne({ email: email });
-    let isDuplicateEmail: boolean = !!theUser;
-    return isDuplicateEmail;
+    return !!theUser;
   }
 
   async createUser(user: User) {
