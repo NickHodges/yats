@@ -18,6 +18,8 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() user: User): Promise<User> {
+
+
     const theErrors = validatePassword(user.password);
 
     if (theErrors.length > 0) {
@@ -28,7 +30,9 @@ export class UsersController {
         .then(passwordDigest => {
           user.password = passwordDigest;
         })
-        .then(() => this.userService.createUser(user));
+        .then(() => {
+          return this.userService.createUser(user);
+        });
     }
   }
 }

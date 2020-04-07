@@ -17,7 +17,6 @@ export class ToDosController {
 
   @Get('complete')
   async getTodos(@Query('iscomplete', new ParseBoolPipe()) isComplete) {
-    console.log('isComplete: ', isComplete);
     if (isComplete) {
       const todosEntities = await this.todosService.getCompletedTodos();
       const todos = classToPlain(todosEntities);
