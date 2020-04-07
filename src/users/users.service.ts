@@ -1,5 +1,5 @@
 import { User } from './../models/user.model';
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -14,7 +14,17 @@ export class UserService {
     });
   }
 
-  createUser(user: User): Promise<User> {
+  async checkEmailForDuplicate(email: string) {
+    const theUser: User = await this.userRepository.findOne({ email: email });
+    let isDuplicateEmail: boolean = !!theUser;
+    return isDuplicateEmail;
+  }
+
+  async createUser(user: User) {
+    if (await this.checkEmailForDuplicate(user.email)) {
+      throw new HttpException('That email already exists.', HttpStatus.CONFLICT);
+    }
+
     return this.userRepository.save(user);
   }
 }
