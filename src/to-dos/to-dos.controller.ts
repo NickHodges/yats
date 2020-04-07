@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Body, Post, Put, Delete, Query, ParseBoolPipe, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Controller, Get, Param, Body, Post, Put, Delete, Query, ParseBoolPipe } from '@nestjs/common';
 import { ToDosService } from './to-dos.service';
 import { classToPlain } from 'class-transformer';
 import { Todo } from '../models/todo.model';
