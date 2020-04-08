@@ -18,8 +18,6 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() user: User): Promise<User> {
-
-
     const theErrors = validatePassword(user.password);
 
     if (theErrors.length > 0) {
