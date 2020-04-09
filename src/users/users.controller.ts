@@ -1,9 +1,11 @@
-import { Controller, Post, Body, Get, HttpException, HttpStatus } from '@nestjs/common';
+import { SetCookies } from '@nestjsplus/cookies';
+import { Controller, Post, Body, Get, HttpException, HttpStatus, Response, Request } from '@nestjs/common';
 import { UserService } from './users.service';
 import { User } from 'src/models/user.model';
 import { classToPlain } from 'class-transformer';
 import * as argon2 from 'argon2';
 import { validatePassword } from 'src/util/password-validator';
+import { randomBytes } from 'src/util/security.util';
 
 @Controller('users')
 export class UsersController {
@@ -17,16 +19,21 @@ export class UsersController {
   }
 
   @Post()
-  async createUser(@Body() user: User): Promise<User> {
+  @SetCookies({ httpOnly: true, secure: true })
+  async createUser(@Body() user: User, @Request() req): Promise<User> {
     const theErrors = validatePassword(user.password);
 
     if (theErrors.length > 0) {
       throw new HttpException(theErrors, HttpStatus.NOT_ACCEPTABLE);
     } else {
-      return argon2
+      const sessionId = await randomBytes(32).then(bytes => bytes.toString('hex'));
+      req._cookies = [{ name: 'SESSION_ID', value: sessionId }];
+
+      return await argon2
         .hash(user.password)
         .then(passwordDigest => {
           user.password = passwordDigest;
+          console.log('email: ', user.email);
         })
         .then(() => {
           return this.userService.createUser(user);
