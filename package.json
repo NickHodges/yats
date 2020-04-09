@@ -4,7 +4,10 @@
   "description": "",
   "author": "",
   "private": true,
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "notes": {
+    "extra-cli-options": ""
+  },
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
