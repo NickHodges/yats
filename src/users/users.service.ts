@@ -16,7 +16,6 @@ export class UserService {
 
   async checkEmailForDuplicate(email: string) {
     const theUser: User = await this.userRepository.findOne({ email: email });
-    console.log('theUser in checkEmailForDuplicate: ', theUser);
     return !!theUser;
   }
 
@@ -25,7 +24,7 @@ export class UserService {
     if (await this.checkEmailForDuplicate(user.email)) {
       throw new HttpException('That email already exists.', HttpStatus.CONFLICT);
     }
-
+  
     return this.userRepository.save(user);
   }
 }
