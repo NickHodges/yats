@@ -11,6 +11,7 @@ import { DataPipe } from './util/data.pipe';
 import { UserService } from './users/users.service';
 import { UsersController } from './users/users.controller';
 import { User } from './models/user.model';
+import { findUserController } from './user/user.controller';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { User } from './models/user.model';
     TypeOrmModule.forFeature([Todo]),
     TypeOrmModule.forFeature([User])
   ],
-  controllers: [AppController, ToDosController, UsersController],
+  controllers: [AppController, ToDosController, UsersController, findUserController],
   providers: [
     {
       provide: APP_INTERCEPTOR,

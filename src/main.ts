@@ -1,15 +1,23 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import CookieParser from 'cookie-parser';
+import fs from 'fs';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.useGlobalPipes(new ValidationPipe({ transform: true }));
-  app.enableCors({
+  const httpsOptions = {
+    key: fs.readFileSync('./Nicklocalhost.key'),
+    cert: fs.readFileSync('./Nicklocalhost.crt')
+  };
+
+  const TodoServer = await NestFactory.create(AppModule, { httpsOptions });
+  TodoServer.use(CookieParser('secret'));
+  TodoServer.useGlobalPipes(new ValidationPipe({ transform: true }));
+  TodoServer.enableCors({
     credentials: true,
     origin: true
   });
 
-  await app.listen(3000);
+  await TodoServer.listen(3000);
 }
 bootstrap();
