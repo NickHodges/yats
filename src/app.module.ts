@@ -12,6 +12,7 @@ import { UserService } from './users/users.service';
 import { UsersController } from './users/users.controller';
 import { User } from './models/user.model';
 import { findUserController } from './user/user.controller';
+import { LogoutController } from './logout/logout.controller';
 
 @Module({
   imports: [
@@ -26,7 +27,7 @@ import { findUserController } from './user/user.controller';
     TypeOrmModule.forFeature([Todo]),
     TypeOrmModule.forFeature([User])
   ],
-  controllers: [AppController, ToDosController, UsersController, findUserController],
+  controllers: [AppController, ToDosController, UsersController, findUserController, LogoutController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
