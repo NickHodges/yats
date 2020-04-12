@@ -20,11 +20,10 @@ export class UserService {
   }
 
   async createUser(user: User) {
-    // console.log('in createUser, user is: ', user);
     if (await this.checkEmailForDuplicate(user.email)) {
       throw new HttpException('That email already exists.', HttpStatus.CONFLICT);
     }
-  
+
     return this.userRepository.save(user);
   }
 }
