@@ -2,7 +2,7 @@ import { Entity, ObjectIdColumn, ObjectID, Column } from 'typeorm';
 import { Exclude, Transform } from 'class-transformer';
 
 @Entity()
-export class User {
+export class  User {
   @ObjectIdColumn()
   @Transform(value => value.toString(), { toPlainOnly: true })
   _id: ObjectID;

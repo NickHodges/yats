@@ -13,6 +13,7 @@ import { UsersController } from './users/users.controller';
 import { User } from './models/user.model';
 import { findUserController } from './user/user.controller';
 import { LogoutController } from './logout/logout.controller';
+import { LoginController } from './login/login.controller';
 
 @Module({
   imports: [
@@ -27,7 +28,7 @@ import { LogoutController } from './logout/logout.controller';
     TypeOrmModule.forFeature([Todo]),
     TypeOrmModule.forFeature([User])
   ],
-  controllers: [AppController, ToDosController, UsersController, findUserController, LogoutController],
+  controllers: [AppController, ToDosController, UsersController, findUserController, LogoutController, LoginController],
   providers: [
     {
       provide: APP_INTERCEPTOR,
@@ -39,7 +40,8 @@ import { LogoutController } from './logout/logout.controller';
       provide: APP_PIPE,
       useClass: DataPipe
     },
-    UserService
+    UserService,
+    LoginService
   ]
 })
 export class AppModule {}

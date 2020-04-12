@@ -1,5 +1,5 @@
 import { SetCookies } from '@nestjsplus/cookies';
-import { Controller, Post, Body, Get, HttpException, HttpStatus, Request } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, HttpStatus, Request } from '@nestjs/common';
 import { UserService } from './users.service';
 import { User } from 'src/models/user.model';
 import * as argon2 from 'argon2';
@@ -24,7 +24,7 @@ export class UsersController {
     req._cookies = [{ name: 'SESSIONID', value: sessionId }];
 
     return await argon2
-      .hash(user.password)
+      .hash(user.password)  
       .then(passwordDigest => {
         user.password = passwordDigest;
       })
