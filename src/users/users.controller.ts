@@ -18,20 +18,18 @@ export class UsersController {
 
     if (theErrors.length > 0) {
       throw new HttpException(theErrors, HttpStatus.NOT_ACCEPTABLE);
-    } else {
-      const sessionId = await randomBytes(32).then(bytes => bytes.toString('hex'));
-      sessionStore.createSession(sessionId, user);
-      req._cookies = [{ name: 'SESSIONID', value: sessionId }];
-
-      return await argon2
-        .hash(user.password)
-        .then(passwordDigest => {
-          user.password = passwordDigest;
-          console.log('email: ', user.email);
-        })
-        .then(() => {
-          return this.userService.createUser(user);
-        });
     }
+    const sessionId = await randomBytes(32).then(bytes => bytes.toString('hex'));
+    sessionStore.createSession(sessionId, user);
+    req._cookies = [{ name: 'SESSIONID', value: sessionId }];
+
+    return await argon2
+      .hash(user.password)
+      .then(passwordDigest => {
+        user.password = passwordDigest;
+      })
+      .then(() => {
+        return this.userService.createUser(user);
+      });
   }
 }
