@@ -24,7 +24,7 @@ export class UsersController {
     req._cookies = [{ name: 'SESSIONID', value: sessionId }];
 
     return await argon2
-      .hash(user.password)  
+      .hash(user.password)
       .then(passwordDigest => {
         user.password = passwordDigest;
       })

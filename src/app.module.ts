@@ -40,8 +40,7 @@ import { LoginController } from './login/login.controller';
       provide: APP_PIPE,
       useClass: DataPipe
     },
-    UserService,
-    LoginService
+    UserService
   ]
 })
 export class AppModule {}
