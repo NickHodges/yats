@@ -18,8 +18,8 @@ export class LoginController {
   async login(@Body() clientUser: User, @Request() req): Promise<User> {
     const serverUser: User = await this.userRepository.findOne({ email: clientUser.email });
 
-    if (!User) {
-      throw new HttpException('', HttpStatus.FORBIDDEN);
+    if (!serverUser) {
+      throw new HttpException('That is some seriously bad password information .', HttpStatus.FORBIDDEN);
     }
 
     const sessionId = await this.validateLogin(clientUser, serverUser);
@@ -31,8 +31,7 @@ export class LoginController {
     const isPasswordValid = await argon2.verify(serverUser.password, clientuser.password);
 
     if (!isPasswordValid) {
-      console.log('Password is not correct.');
-      throw new HttpException('Password is not correct', HttpStatus.NOT_ACCEPTABLE);
+      throw new HttpException('That is some seriously bad password information.', HttpStatus.NOT_ACCEPTABLE);
     }
 
     const sessionId = await randomBytes(32).then(bytes => bytes.toString('hex'));

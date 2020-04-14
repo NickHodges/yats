@@ -6,7 +6,7 @@ const schema = new passwordValidator();
 // Add properties to it
 schema
   .is()
-  .min(8  )
+  .min(8)
   .has()
   .uppercase() // Must have uppercase letters
   .has()
