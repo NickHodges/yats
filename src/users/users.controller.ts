@@ -1,11 +1,12 @@
-import { SetCookies } from '@nestjsplus/cookies';
-import { Controller, Post, Body, HttpException, HttpStatus, Request } from '@nestjs/common';
+import { SetCookies, Cookies } from '@nestjsplus/cookies';
+import { Controller, Post, Body, HttpException, HttpStatus, Request, Get } from '@nestjs/common';
 import { UserService } from './users.service';
 import { User } from 'src/models/user.model';
 import * as argon2 from 'argon2';
 import { validatePassword } from 'src/util/password-validator';
 import { randomBytes } from 'src/util/security.util';
 import { sessionStore } from 'src/util/session-store.util';
+import { get } from 'https';
 
 @Controller('users')
 export class UsersController {
