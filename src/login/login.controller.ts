@@ -19,7 +19,7 @@ export class LoginController {
     const serverUser: User = await this.userRepository.findOne({ email: clientUser.email });
 
     if (!serverUser) {
-      throw new HttpException('That is some seriously bad password information .', HttpStatus.FORBIDDEN);
+      throw new HttpException('That is some seriously bad password information  .', HttpStatus.FORBIDDEN);
     }
 
     const sessionId = await this.validateLogin(clientUser, serverUser);
