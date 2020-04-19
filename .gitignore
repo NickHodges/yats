@@ -34,3 +34,5 @@ lerna-debug.log*
 !.vscode/extensions.json
 Nicklocalhost.crt
 Nicklocalhost.key
+src/ToDoPrivateKey.key
+src/ToDoPublicKey.key
