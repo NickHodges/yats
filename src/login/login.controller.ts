@@ -30,10 +30,10 @@ export class LoginController {
   async validateLogin(clientuser: User, serverUser: User): Promise<User> {
     const isPasswordValid = await argon2.verify(serverUser.password, clientuser.password);
 
-    if (!isPasswordValid) {
-      throw new HttpException(this.badInfo, HttpStatus.NOT_ACCEPTABLE);
-    } else {
+    if (isPasswordValid) {
       return serverUser;
+    } else {
+      throw new HttpException(this.badInfo, HttpStatus.NOT_ACCEPTABLE);
     }
   }
 }
