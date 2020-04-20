@@ -5,7 +5,6 @@ import { User } from 'src/models/user.model';
 import * as argon2 from 'argon2';
 import { validatePassword } from 'src/util/password-validator';
 import { randomBytes } from 'src/util/security.util';
-import { sessionStore } from 'src/util/session-store.util';
 import { get } from 'https';
 
 @Controller('users')
@@ -20,10 +19,6 @@ export class UsersController {
     if (theErrors.length > 0) {
       throw new HttpException(theErrors, HttpStatus.NOT_ACCEPTABLE);
     }
-    const sessionId = await randomBytes(32).then(bytes => bytes.toString('hex'));
-    sessionStore.createSession(sessionId, user);
-    req._cookies = [{ name: 'SESSIONID', value: sessionId }];
-
     return await argon2
       .hash(user.password)
       .then(passwordDigest => {

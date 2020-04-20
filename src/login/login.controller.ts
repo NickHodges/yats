@@ -1,42 +1,39 @@
-import { Controller } from '@nestjs/common';
-import { Post, Body, HttpException, HttpStatus, Request, Response } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
+import { Post, Body, HttpException, HttpStatus, Request } from '@nestjs/common';
 import { User } from 'src/models/user.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as argon2 from 'argon2';
 
-import { sessionStore } from 'src/util/session-store.util';
-import { randomBytes } from 'src/util/security.util';
-import { SetCookies } from '@nestjsplus/cookies';
+import { AuthService } from 'src/auth/auth.service';
 
 @Controller('login')
 export class LoginController {
-  constructor(@InjectRepository(User) private userRepository: Repository<User>) {}
+  private badInfo: string = 'Dude, your login information is completely unacceptable.';
+
+  constructor(@InjectRepository(User) private userRepository: Repository<User>, private authService: AuthService) {}
 
   @Post()
-  @SetCookies({ httpOnly: true, secure: true })
-  async login(@Body() clientUser: User, @Request() req): Promise<User> {
+  async login(@Body() clientUser: User, @Request() req) {
+    console.log('clientUser.email: ', clientUser.email);
     const serverUser: User = await this.userRepository.findOne({ email: clientUser.email });
 
     if (!serverUser) {
-      throw new HttpException('That is some seriously bad password information  .', HttpStatus.FORBIDDEN);
+      throw new HttpException(this.badInfo, HttpStatus.FORBIDDEN);
     }
 
-    const sessionId = await this.validateLogin(clientUser, serverUser);
-    req._cookies = [{ name: 'SESSIONID', value: sessionId }];
-    return serverUser;
+    const theUser: Promise<User> = this.validateLogin(clientUser, serverUser);
+
+    return this.authService.login(await theUser);
   }
 
-  async validateLogin(clientuser: User, serverUser: User): Promise<string> {
+  async validateLogin(clientuser: User, serverUser: User): Promise<User> {
     const isPasswordValid = await argon2.verify(serverUser.password, clientuser.password);
 
     if (!isPasswordValid) {
-      throw new HttpException('That is some seriously bad password information.', HttpStatus.NOT_ACCEPTABLE);
+      throw new HttpException(this.badInfo, HttpStatus.NOT_ACCEPTABLE);
+    } else {
+      return serverUser;
     }
-
-    const sessionId = await randomBytes(32).then(bytes => bytes.toString('hex'));
-    sessionStore.createSession(sessionId, serverUser);
-
-    return sessionId;
   }
 }
