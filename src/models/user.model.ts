@@ -11,9 +11,11 @@ export class  User {
   email: string;
 
   @Column({ length: 256 })
-  password: string;
+  password: string; 
 
-  errors: string[];
+  //errors: string[];
+
+  token?: string;
 
   @Exclude() @Column() createdAt: Date = new Date();
   @Exclude() @Column() createdBy: string = 'user';
