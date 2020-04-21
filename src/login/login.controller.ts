@@ -17,13 +17,11 @@ export class LoginController {
   async login(@Body() clientUser: User, @Request() req) {
     console.log('clientUser.email: ', clientUser.email);
     const serverUser: User = await this.userRepository.findOne({ email: clientUser.email });
-
+    
     if (!serverUser) {
       throw new HttpException(this.badInfo, HttpStatus.FORBIDDEN);
     }
-
     const theUser: Promise<User> = this.validateLogin(clientUser, serverUser);
-
     return this.authService.login(await theUser);
   }
 

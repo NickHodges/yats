@@ -13,8 +13,6 @@ export class  User {
   @Column({ length: 256 })
   password: string; 
 
-  //errors: string[];
-
   token?: string;
 
   @Exclude() @Column() createdAt: Date = new Date();

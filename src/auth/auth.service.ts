@@ -32,10 +32,7 @@ export class AuthService {
 
   async verifyPayload(payload: JwtPayload): Promise<User> {
     let user: User;
-
     user = await this.userRepository.findOne({ where: { email: payload.sub } });
-    console.log('In VerifyPayload, user: ', user);
-
     return user;
   }
 }
