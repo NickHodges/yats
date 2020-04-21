@@ -18,7 +18,6 @@ import { jwtConstants } from './auth/auth.constants';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtStrategy } from './auth/jwt.strategy';
 import { LoggerMiddleware } from './middleware/logger.middleware';
-import { ErrorMiddleware } from './middleware/error.middleware';
 
 @Module({
   imports: [
@@ -58,6 +57,5 @@ import { ErrorMiddleware } from './middleware/error.middleware';
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(LoggerMiddleware).forRoutes({ path: '*', method: RequestMethod.ALL });
-    consumer.apply(ErrorMiddleware).forRoutes('');
   }
 }
